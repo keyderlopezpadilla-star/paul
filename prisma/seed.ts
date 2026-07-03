@@ -60,21 +60,27 @@ async function main() {
   }
   console.log(`✔ ${courses.length} courses`);
 
-  // --- Testimonials ---
-  await prisma.testimonial.deleteMany();
-  for (const [i, t] of testimonials.entries()) {
-    await prisma.testimonial.create({
-      data: { quote: t.quote, author: t.author, role: t.role, order: i },
-    });
+  // --- Testimonials (idempotent: only seed when empty) ---
+  if ((await prisma.testimonial.count()) === 0) {
+    for (const [i, t] of testimonials.entries()) {
+      await prisma.testimonial.create({
+        data: { quote: t.quote, author: t.author, role: t.role, order: i },
+      });
+    }
+    console.log(`✔ ${testimonials.length} testimonials`);
+  } else {
+    console.log("• testimonials already present, skipping");
   }
-  console.log(`✔ ${testimonials.length} testimonials`);
 
-  // --- Partners ---
-  await prisma.partner.deleteMany();
-  for (const [i, name] of partners.entries()) {
-    await prisma.partner.create({ data: { name, order: i } });
+  // --- Partners (idempotent: only seed when empty) ---
+  if ((await prisma.partner.count()) === 0) {
+    for (const [i, name] of partners.entries()) {
+      await prisma.partner.create({ data: { name, order: i } });
+    }
+    console.log(`✔ ${partners.length} partners`);
+  } else {
+    console.log("• partners already present, skipping");
   }
-  console.log(`✔ ${partners.length} partners`);
 
   // --- Sample posts ---
   const posts = [

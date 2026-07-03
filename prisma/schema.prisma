@@ -1,13 +1,15 @@
-// Agropaul CMS schema — SQLite for zero-config local dev.
-// Swap the datasource to PostgreSQL for production (see .env.example).
+// Agropaul CMS schema — PostgreSQL (Neon) for production & dev parity.
+// `url` is the pooled (PgBouncer) connection used at runtime; `directUrl`
+// is the direct (non-pooled) connection used for migrations.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
