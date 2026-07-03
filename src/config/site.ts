@@ -1,0 +1,47 @@
+/**
+ * Central site configuration & business metadata for Agropaul.
+ * Single source of truth for SEO, structured data and contact info.
+ */
+
+export const siteConfig = {
+  name: "Agropaul",
+  legalName: "Agropaul Gestión Agrícola",
+  tagline: "Innovación y pasión por la tierra",
+  description:
+    "Agropaul es una empresa agrícola profesional especializada en poda técnica de cítricos, caqui y frutales de hueso, aclareo, recolección y gestión integral de fincas. Formación certificada y soluciones sostenibles.",
+  url: "https://agropaul.es",
+  locale: "es_ES",
+  lang: "es",
+  keywords: [
+    "poda técnica",
+    "gestión agrícola",
+    "poda de cítricos",
+    "poda de caqui",
+    "aclareo",
+    "recolección",
+    "gestión de fincas",
+    "cursos de poda",
+    "agricultura sostenible",
+    "Agropaul",
+  ],
+  contact: {
+    email: "info@agropaul.es",
+    phone: "+34 600 000 000",
+    phoneHref: "tel:+34600000000",
+    whatsapp: "https://wa.me/34600000000",
+    address: {
+      region: "Comunidad Valenciana",
+      country: "España",
+      countryCode: "ES",
+    },
+  },
+  social: {
+    instagram: "https://instagram.com/agropaul",
+    linkedin: "https://linkedin.com/company/agropaul",
+    youtube: "https://youtube.com/@agropaul",
+    facebook: "https://facebook.com/agropaul",
+  },
+  founded: "2012",
+} as const;
+
+export type SiteConfig = typeof siteConfig;

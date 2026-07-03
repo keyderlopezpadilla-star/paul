@@ -1,0 +1,197 @@
+@import "tailwindcss";
+
+/* ============================================================
+   AGROPAUL — Design System
+   Tailwind v4 CSS-first configuration
+   ============================================================ */
+
+@theme {
+  /* -------- Color primitives -------- */
+  --color-white: #ffffff;
+  --color-paper: #fbfcfa;
+  --color-mist: #f2f4f0;
+  --color-stone: #e7eae3;
+
+  /* Deep forest green scale */
+  --color-forest-50: #eef6f0;
+  --color-forest-100: #d3e8d9;
+  --color-forest-200: #a6d0b3;
+  --color-forest-300: #6fae83;
+  --color-forest-400: #3f8a5b;
+  --color-forest-500: #1f6b3f;
+  --color-forest-600: #14512f;
+  --color-forest-700: #0f3d24;
+  --color-forest-800: #0b2d1b;
+  --color-forest-900: #071e12;
+
+  /* Accent green (vibrant) */
+  --color-accent-400: #34c56a;
+  --color-accent-500: #21a559;
+  --color-accent-600: #178a48;
+
+  /* Electric blue */
+  --color-electric-400: #3b82f6;
+  --color-electric-500: #2563eb;
+  --color-electric-600: #1d4ed8;
+
+  /* Soft orange (harvest) */
+  --color-harvest-400: #fb923c;
+  --color-harvest-500: #f97316;
+  --color-harvest-600: #ea580c;
+
+  /* Charcoal / ink */
+  --color-charcoal: #14171a;
+  --color-ink: #0c0e10;
+  --color-graphite: #3a3f44;
+  --color-slate: #6b7280;
+
+  /* -------- Semantic tokens -------- */
+  --color-background: var(--color-paper);
+  --color-foreground: var(--color-ink);
+  --color-muted: var(--color-slate);
+  --color-border: rgba(12, 14, 16, 0.08);
+
+  /* -------- Typography -------- */
+  --font-sans: "General Sans", var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Satoshi", "General Sans", var(--font-inter), sans-serif;
+  --font-inter: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* -------- Radius -------- */
+  --radius-xs: 0.5rem;
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --radius-2xl: 2.5rem;
+  --radius-3xl: 3rem;
+
+  /* -------- Easing (custom) -------- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* -------- Fluid type scale -------- */
+  --text-hero: clamp(2.75rem, 8vw, 8rem);
+  --text-display: clamp(2.25rem, 5.5vw, 5rem);
+  --text-title: clamp(1.75rem, 3.5vw, 3rem);
+
+  /* -------- Container -------- */
+  --breakpoint-3xl: 120rem;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+* {
+  border-color: var(--color-border);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: initial; /* Lenis handles smooth scroll */
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  font-feature-settings: "ss01", "cv01", "cv11";
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Custom selection */
+::selection {
+  background: var(--color-accent-500);
+  color: var(--color-white);
+}
+
+/* Thin scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-mist);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-forest-300);
+  border-radius: 999px;
+}
+
+/* ============================================================
+   Utilities
+   ============================================================ */
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Clip reveal for masked headings */
+.clip-reveal {
+  clip-path: inset(0 0 100% 0);
+}
+
+/* Gradient text */
+.text-gradient-forest {
+  background: linear-gradient(135deg, var(--color-forest-500) 0%, var(--color-accent-500) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Hide default cursor when custom cursor active (pointer devices only) */
+@media (hover: hover) and (pointer: fine) {
+  .custom-cursor-active,
+  .custom-cursor-active * {
+    cursor: none !important;
+  }
+}
+
+/* Marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee var(--marquee-duration, 40s) linear infinite;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .grain { display: none; }
+}
