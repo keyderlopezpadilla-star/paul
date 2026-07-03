@@ -73,16 +73,28 @@ npm run start    # serve the build
 npm run lint
 ```
 
+## ✦ Phase 2 — Immersive 3D (done ✅)
+
+An interactive **React Three Fiber** farm scene lives in the `#experiencia`
+section (`src/components/three/`):
+
+- Rolling, sine-displaced **terrain**, **instanced crop field** swaying in the
+  wind, low-poly **trees** with animated foliage, a **quadcopter drone** that
+  patrols the field with spinning rotors.
+- Procedural **sky** (golden hour), soft **clouds**, floating **pollen**
+  (Sparkles), ACES tone mapping, shadows and depth fog.
+- **Camera drift + mouse parallax** and interactive **hotspots** (drei `Html`)
+  describing the services.
+- Loaded via `next/dynamic` (`ssr: false`), gated on pointer-fine desktop and
+  `prefers-reduced-motion`, with a static gradient fallback and a loading
+  sequence — so it never hurts SSR, mobile or accessibility.
+
 ## ✦ Roadmap (next phases)
 
-These were intentionally deferred to keep Phase 1 real, fast and shippable:
-
-1. **3D farm scene** — React Three Fiber / Drei immersive terrain, tractor,
-   drone, day/night cycle (loaded behind a dynamic, reduced-motion-aware gate).
-2. **CMS + Admin** — Prisma + PostgreSQL, NextAuth, media library (Cloudinary),
+3. **CMS + Admin** — Prisma + PostgreSQL, NextAuth, media library (Cloudinary),
    manage products/courses/news/testimonials.
-3. **Live forms** — Resend-powered contact & newsletter API routes
+4. **Live forms** — Resend-powered contact & newsletter API routes
    (currently validated client-side with simulated submission).
-4. **PWA / offline** + Stripe-ready checkout for courses.
+5. **PWA / offline** + Stripe-ready checkout for courses.
 
 See `.env.example` for the variables these phases will use.
