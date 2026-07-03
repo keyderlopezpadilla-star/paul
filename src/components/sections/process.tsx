@@ -26,10 +26,10 @@ export function Process() {
       <section id="proceso" className="bg-forest-900 py-24 text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <Eyebrow dark>Cómo trabajamos</Eyebrow>
-          <h2 className="mt-6 font-display text-4xl font-semibold tracking-tight">
+          <h2 className="mt-6 font-display text-[clamp(1.9rem,7vw,2.5rem)] font-semibold leading-[1.05] tracking-tight">
             Un proceso claro, de la tierra a los datos.
           </h2>
-          <div className="mt-12 space-y-5">
+          <div className="mt-10 space-y-5 sm:mt-12">
             {processSteps.map((s) => (
               <div key={s.id} className="rounded-3xl border border-white/10 bg-white/5 p-7">
                 <span className="text-sm font-semibold text-accent-400">{s.step}</span>

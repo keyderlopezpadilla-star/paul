@@ -50,7 +50,14 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
               exit={{ opacity: 0, y: -30, rotateX: 6 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               style={{ transformPerspective: 1200 }}
-              className="mx-auto max-w-3xl rounded-[2.5rem] border border-white/60 bg-white/70 p-8 shadow-[0_30px_90px_-40px_rgba(7,30,18,0.3)] backdrop-blur-xl sm:p-14"
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={(_, info) => {
+                if (info.offset.x < -60) go(index + 1);
+                else if (info.offset.x > 60) go(index - 1);
+              }}
+              className="mx-auto max-w-3xl cursor-grab touch-pan-y rounded-[2.5rem] border border-white/60 bg-white/70 p-8 shadow-[0_30px_90px_-40px_rgba(7,30,18,0.3)] backdrop-blur-xl active:cursor-grabbing sm:p-14"
             >
               <Quote className="mx-auto h-10 w-10 text-accent-500/40" />
               <p className="mt-6 font-display text-2xl font-medium leading-snug tracking-tight text-forest-900 sm:text-3xl">

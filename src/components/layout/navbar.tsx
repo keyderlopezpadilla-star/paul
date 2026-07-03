@@ -38,6 +38,7 @@ export function Navbar() {
         animate={{ y: hidden ? -110 : 0 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className="fixed inset-x-0 top-0 z-[120] px-4 pt-4 sm:px-6"
+        style={{ paddingTop: "max(1rem, env(safe-area-inset-top))" }}
       >
         <nav
           className={cn(
