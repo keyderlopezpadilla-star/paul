@@ -57,6 +57,14 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
                 “{t.quote}”
               </p>
               <footer className="mt-8 flex flex-col items-center">
+                {t.avatar && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={t.avatar}
+                    alt={t.author}
+                    className="mb-3 h-14 w-14 rounded-full object-cover ring-2 ring-white shadow-md"
+                  />
+                )}
                 <div className="flex items-center gap-1.5 font-semibold text-forest-900">
                   {t.author}
                   <BadgeCheck className="h-4.5 w-4.5 text-electric-500" />

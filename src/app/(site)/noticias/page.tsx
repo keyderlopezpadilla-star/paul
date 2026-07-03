@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { getPosts } from "@/lib/data";
 import { Eyebrow } from "@/components/ui/eyebrow";
@@ -46,12 +47,24 @@ export default async function NoticiasPage() {
               className="group flex flex-col overflow-hidden rounded-3xl border border-forest-900/10 bg-white transition-shadow hover:shadow-[0_30px_80px_-40px_rgba(7,30,18,0.3)]"
             >
               <div
-                className="relative flex h-44 items-end p-6"
+                className="relative flex h-44 items-end overflow-hidden p-6"
                 style={{
                   background: `linear-gradient(135deg, ${post.coverColor}, #14512f)`,
                 }}
               >
-                <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
+                {post.coverImage && (
+                  <Image
+                    src={post.coverImage}
+                    alt={post.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                )}
+                {post.coverImage && (
+                  <span className="absolute inset-0 bg-gradient-to-t from-forest-900/70 via-forest-900/10 to-transparent" />
+                )}
+                <span className="relative rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
                   {post.category}
                 </span>
               </div>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sin conexión · Agropaul</title>
+    <meta name="theme-color" content="#0f3d24" />
+    <style>
+      :root { color-scheme: light; }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        font-family: "General Sans", Inter, system-ui, -apple-system, sans-serif;
+        background: radial-gradient(120% 120% at 50% 0%, #0f3d24 0%, #071e12 60%, #04120a 100%);
+        color: #eef6f0;
+      }
+      .card { max-width: 420px; text-align: center; }
+      .badge {
+        width: 76px; height: 76px; margin: 0 auto 28px;
+        display: grid; place-items: center;
+        border-radius: 22px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
+      }
+      h1 { font-size: 28px; margin: 0 0 12px; letter-spacing: -0.02em; }
+      p { color: rgba(238,246,240,0.72); line-height: 1.6; margin: 0 0 28px; font-size: 15px; }
+      button {
+        appearance: none; border: 0; cursor: pointer;
+        background: #21a559; color: #fff;
+        padding: 13px 28px; border-radius: 999px;
+        font-size: 15px; font-weight: 500;
+        transition: background .2s ease;
+      }
+      button:hover { background: #34c56a; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="badge">
+        <svg width="40" height="40" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+          <path d="M256 388 C256 300 256 250 256 196" fill="none" stroke="#eef6f0" stroke-width="24" stroke-linecap="round"/>
+          <path d="M256 250 C210 250 168 224 150 176 C206 168 250 190 262 236 Z" fill="#34c56a"/>
+          <path d="M256 208 C300 200 336 166 344 118 C292 116 254 148 250 196 Z" fill="#eef6f0"/>
+        </svg>
+      </div>
+      <h1>Estás sin conexión</h1>
+      <p>
+        No hemos podido cargar esta página. Comprueba tu conexión a internet
+        e inténtalo de nuevo. Agropaul volverá contigo enseguida.
+      </p>
+      <button onclick="location.reload()">Reintentar</button>
+    </div>
+  </body>
+</html>

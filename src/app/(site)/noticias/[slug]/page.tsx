@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { prisma } from "@/lib/prisma";
@@ -33,6 +34,7 @@ export async function generateMetadata({
       title: post.title,
       description: post.excerpt,
       publishedTime: post.publishedAt?.toISOString(),
+      images: post.coverImage ? [{ url: post.coverImage }] : undefined,
     },
   };
 }
@@ -78,6 +80,19 @@ export default async function PostPage({
         className="relative flex min-h-[52vh] items-end overflow-hidden pb-14 pt-36"
         style={{ background: `linear-gradient(140deg, ${post.coverColor}, #071e12)` }}
       >
+        {post.coverImage && (
+          <>
+            <Image
+              src={post.coverImage}
+              alt={post.title}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+            />
+            <span className="absolute inset-0 bg-gradient-to-t from-forest-900/90 via-forest-900/50 to-forest-900/30" />
+          </>
+        )}
         <div className="grain" />
         <div className="relative mx-auto w-full max-w-3xl px-4 sm:px-6">
           <Link

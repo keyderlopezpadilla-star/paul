@@ -50,12 +50,19 @@ export async function getTestimonials(): Promise<Testimonial[]> {
     where: { published: true },
     orderBy: { order: "asc" },
   });
-  return rows.map((t) => ({ quote: t.quote, author: t.author, role: t.role }));
+  return rows.map((t) => ({
+    quote: t.quote,
+    author: t.author,
+    role: t.role,
+    avatar: t.avatar ?? undefined,
+  }));
 }
 
-export async function getPartners(): Promise<string[]> {
+export type PublicPartner = { name: string; logo: string | null };
+
+export async function getPartners(): Promise<PublicPartner[]> {
   const rows = await prisma.partner.findMany({ orderBy: { order: "asc" } });
-  return rows.map((p) => p.name);
+  return rows.map((p) => ({ name: p.name, logo: p.logo }));
 }
 
 export type PublicPost = {
@@ -65,6 +72,7 @@ export type PublicPost = {
   content: string;
   category: string;
   coverColor: string;
+  coverImage: string | null;
   publishedAt: Date | null;
 };
 
@@ -80,6 +88,7 @@ export async function getPosts(): Promise<PublicPost[]> {
     content: p.content,
     category: p.category,
     coverColor: p.coverColor,
+    coverImage: p.coverImage,
     publishedAt: p.publishedAt,
   }));
 }
@@ -94,6 +103,7 @@ export async function getPost(slug: string): Promise<PublicPost | null> {
     content: p.content,
     category: p.category,
     coverColor: p.coverColor,
+    coverImage: p.coverImage,
     publishedAt: p.publishedAt,
   };
 }

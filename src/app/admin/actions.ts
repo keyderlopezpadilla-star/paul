@@ -109,6 +109,7 @@ export async function saveTestimonial(formData: FormData) {
     quote: str(formData, "quote"),
     author: str(formData, "author"),
     role: str(formData, "role"),
+    avatar: str(formData, "avatar") || null,
     verified: bool(formData, "verified"),
     order: int(formData, "order"),
     published: bool(formData, "published"),
@@ -136,6 +137,7 @@ export async function savePost(formData: FormData) {
     content: str(formData, "content"),
     category: str(formData, "category") || "Actualidad",
     coverColor: str(formData, "coverColor") || "#0f3d24",
+    coverImage: str(formData, "coverImage") || null,
     published,
     publishedAt: published ? new Date() : null,
   };
@@ -154,7 +156,11 @@ export async function deletePost(formData: FormData) {
 
 export async function savePartner(formData: FormData) {
   const id = str(formData, "id");
-  const data = { name: str(formData, "name"), order: int(formData, "order") };
+  const data = {
+    name: str(formData, "name"),
+    logo: str(formData, "logo") || null,
+    order: int(formData, "order"),
+  };
   if (id) await prisma.partner.update({ where: { id }, data });
   else await prisma.partner.create({ data });
   refresh("/admin/partners");
@@ -164,4 +170,30 @@ export async function savePartner(formData: FormData) {
 export async function deletePartner(formData: FormData) {
   await prisma.partner.delete({ where: { id: str(formData, "id") } });
   refresh("/admin/partners");
+}
+
+/* ------------------------ Contact messages ----------------------- */
+
+export async function toggleMessageRead(formData: FormData) {
+  const id = str(formData, "id");
+  const msg = await prisma.contactMessage.findUnique({ where: { id } });
+  if (msg) {
+    await prisma.contactMessage.update({
+      where: { id },
+      data: { read: !msg.read },
+    });
+  }
+  revalidatePath("/admin/messages");
+}
+
+export async function deleteMessage(formData: FormData) {
+  await prisma.contactMessage.delete({ where: { id: str(formData, "id") } });
+  revalidatePath("/admin/messages");
+}
+
+/* ------------------------- Subscribers --------------------------- */
+
+export async function deleteSubscriber(formData: FormData) {
+  await prisma.subscriber.delete({ where: { id: str(formData, "id") } });
+  revalidatePath("/admin/subscribers");
 }

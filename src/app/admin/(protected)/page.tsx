@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { Scissors, GraduationCap, Quote, Newspaper, Handshake, ArrowUpRight } from "lucide-react";
+import { Scissors, GraduationCap, Quote, Newspaper, Handshake, Inbox, Users, ArrowUpRight } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 
 export default async function DashboardPage() {
   const session = await auth();
-  const [services, courses, testimonials, posts, partners, drafts] =
+  const [services, courses, testimonials, posts, partners, drafts, unreadMsgs, subscribers] =
     await Promise.all([
       prisma.service.count(),
       prisma.course.count(),
@@ -13,6 +13,8 @@ export default async function DashboardPage() {
       prisma.post.count({ where: { published: true } }),
       prisma.partner.count(),
       prisma.post.count({ where: { published: false } }),
+      prisma.contactMessage.count({ where: { read: false } }),
+      prisma.subscriber.count(),
     ]);
 
   const cards = [
@@ -22,6 +24,8 @@ export default async function DashboardPage() {
     { label: "Noticias publicadas", value: posts, href: "/admin/posts", icon: Newspaper },
     { label: "Colaboradores", value: partners, href: "/admin/partners", icon: Handshake },
     { label: "Borradores", value: drafts, href: "/admin/posts", icon: Newspaper },
+    { label: "Mensajes sin leer", value: unreadMsgs, href: "/admin/messages", icon: Inbox },
+    { label: "Suscriptores", value: subscribers, href: "/admin/subscribers", icon: Users },
   ];
 
   return (

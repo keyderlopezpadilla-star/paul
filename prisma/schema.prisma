@@ -53,6 +53,7 @@ model Testimonial {
   quote     String
   author    String
   role      String
+  avatar    String? // Cloudinary secure_url or external image URL
   verified  Boolean  @default(true)
   order     Int      @default(0)
   published Boolean  @default(true)
@@ -63,6 +64,7 @@ model Testimonial {
 model Partner {
   id        String   @id @default(cuid())
   name      String
+  logo      String? // Cloudinary secure_url or external image URL
   order     Int      @default(0)
   createdAt DateTime @default(now())
 }
@@ -74,9 +76,32 @@ model Post {
   excerpt     String
   content     String // markdown / long text
   coverColor  String    @default("#0f3d24")
+  coverImage  String? // Cloudinary secure_url or external image URL
   category    String    @default("Actualidad")
   published   Boolean   @default(false)
   publishedAt DateTime?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+}
+
+// Inbound leads from the public contact form (Phase 4).
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  interest  String   @default("otro")
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+// Newsletter subscribers captured from the footer form (Phase 4).
+model Subscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  source    String   @default("footer")
+  createdAt DateTime @default(now())
 }

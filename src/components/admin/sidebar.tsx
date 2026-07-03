@@ -9,6 +9,8 @@ import {
   Quote,
   Newspaper,
   Handshake,
+  Inbox,
+  Users,
   ExternalLink,
   LogOut,
   Leaf,
@@ -23,6 +25,8 @@ const items = [
   { href: "/admin/testimonials", label: "Testimonios", icon: Quote },
   { href: "/admin/posts", label: "Noticias", icon: Newspaper },
   { href: "/admin/partners", label: "Colaboradores", icon: Handshake },
+  { href: "/admin/messages", label: "Mensajes", icon: Inbox },
+  { href: "/admin/subscribers", label: "Suscriptores", icon: Users },
 ];
 
 export function Sidebar({ email }: { email?: string | null }) {

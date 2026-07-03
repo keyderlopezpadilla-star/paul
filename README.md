@@ -119,11 +119,48 @@ A fully functional headless CMS backs the public site:
 > The public site sits under a `(site)` route group with its own layout
 > (smooth scroll, cursor, navbar, footer); `/admin` has a separate shell.
 
+## ✦ Phase 4 — Live forms (done ✅)
+
+The contact and newsletter forms now submit to real API routes:
+
+- **`POST /api/contact`** & **`POST /api/newsletter`** — server-side **Zod**
+  validation (shared with the client via `src/lib/validations.ts`),
+  per-IP **rate limiting** (`src/lib/rate-limit.ts`, 5 req/min), a hidden
+  **honeypot** field and idempotent newsletter subscribe.
+- **Transactional email via Resend** (`src/lib/email.ts`) — called through the
+  REST API (no SDK, edge-friendly) with branded HTML templates: an internal
+  notification + a customer confirmation for contacts, and a welcome email for
+  subscribers. **Graceful degradation:** with no `RESEND_API_KEY` the
+  submission is still stored and the UX succeeds.
+- **Every submission is persisted** — new `ContactMessage` & `Subscriber`
+  Prisma models. Manage them in the admin under **Mensajes** (read/unread,
+  delete) and **Suscriptores** (delete, copy all, **export CSV**).
+
+## ✦ Phase 5 — PWA / offline (done ✅)
+
+- **Web app manifest** (`src/app/manifest.ts` → `/manifest.webmanifest`) with
+  maskable icons, theme colours and app shortcuts.
+- **Service worker** (`public/sw.js`, registered production-only): network-first
+  navigations with an **offline fallback** (`public/offline.html`), cache-first
+  static assets, stale-while-revalidate images. Admin & API traffic is never
+  cached.
+- Brand **icon set** (SVG + 192/512/maskable/apple PNGs) and Apple web-app meta.
+
+## ✦ Phase 6 — Media library (done ✅)
+
+- **Signed, direct-to-Cloudinary uploads** — `src/lib/cloudinary.ts` mints a
+  short-lived SHA-1 signature server-side (no SDK, secret never leaves the
+  server); the browser uploads straight to Cloudinary. Route:
+  **`POST /api/admin/upload`** (auth-protected).
+- Reusable **`<ImageUploader>`** wired into the CMS forms — **posts**
+  (cover image), **testimonials** (avatar) and **partners** (logo) — with live
+  preview and a **manual URL fallback** when Cloudinary isn't configured.
+- Public site renders the media: blog cover images (list + article + OG),
+  testimonial avatars and partner logos in the marquee.
+
 ## ✦ Roadmap (next phases)
 
-4. **Live forms** — Resend-powered contact & newsletter API routes
-   (currently validated client-side with simulated submission).
-5. **PWA / offline** + Stripe-ready checkout for courses.
-6. **Media library** — Cloudinary uploads wired into the CMS forms.
+7. Stripe-ready checkout for courses.
+8. Analytics dashboard inside the CMS.
 
 See `.env.example` for the variables these phases will use.

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/admin/shared";
 import { Field, Input, Textarea, Checkbox, SubmitButton } from "@/components/admin/ui";
+import { ImageUploader } from "@/components/admin/image-uploader";
 import { savePost } from "@/app/admin/actions";
 
 export default async function PostFormPage({
@@ -39,7 +40,14 @@ export default async function PostFormPage({
         <Field label="Contenido" htmlFor="content" hint="Texto del artículo (los saltos de línea separan párrafos)">
           <Textarea id="content" name="content" rows={10} defaultValue={post?.content ?? ""} required />
         </Field>
-        <Field label="Color de portada" htmlFor="coverColor" hint="Hex, p. ej. #0f3d24">
+        <ImageUploader
+          name="coverImage"
+          label="Imagen de portada"
+          folder="agropaul/posts"
+          defaultValue={post?.coverImage ?? ""}
+          hint="Se muestra en la tarjeta y la cabecera del artículo. Si se deja vacía, se usa el color de portada."
+        />
+        <Field label="Color de portada" htmlFor="coverColor" hint="Fallback si no hay imagen. Hex, p. ej. #0f3d24">
           <Input id="coverColor" name="coverColor" defaultValue={post?.coverColor ?? "#0f3d24"} className="max-w-[180px]" />
         </Field>
         <Checkbox name="published" label="Publicado" defaultChecked={post?.published ?? false} />

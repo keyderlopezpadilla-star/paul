@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/admin/shared";
 import { Field, Input, Textarea, Checkbox, SubmitButton } from "@/components/admin/ui";
+import { ImageUploader } from "@/components/admin/image-uploader";
 import { saveTestimonial } from "@/app/admin/actions";
 
 export default async function TestimonialFormPage({
@@ -33,6 +34,13 @@ export default async function TestimonialFormPage({
             <Input id="role" name="role" defaultValue={t?.role ?? ""} placeholder="Productor de caqui" required />
           </Field>
         </div>
+        <ImageUploader
+          name="avatar"
+          label="Foto del cliente (opcional)"
+          folder="agropaul/testimonials"
+          defaultValue={t?.avatar ?? ""}
+          hint="Retrato cuadrado. Si se deja vacío, se muestran las iniciales."
+        />
         <Field label="Orden" htmlFor="order">
           <Input id="order" name="order" type="number" defaultValue={t?.order ?? 0} className="max-w-[120px]" />
         </Field>

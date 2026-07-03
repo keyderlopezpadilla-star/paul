@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/admin/shared";
 import { Field, Input, SubmitButton } from "@/components/admin/ui";
+import { ImageUploader } from "@/components/admin/image-uploader";
 import { savePartner } from "@/app/admin/actions";
 
 export default async function PartnerFormPage({
@@ -25,6 +26,13 @@ export default async function PartnerFormPage({
         <Field label="Nombre" htmlFor="name">
           <Input id="name" name="name" defaultValue={p?.name ?? ""} required />
         </Field>
+        <ImageUploader
+          name="logo"
+          label="Logo (opcional)"
+          folder="agropaul/partners"
+          defaultValue={p?.logo ?? ""}
+          hint="Si se añade, se muestra el logo en el carrusel en lugar del nombre."
+        />
         <Field label="Orden" htmlFor="order">
           <Input id="order" name="order" type="number" defaultValue={p?.order ?? 0} className="max-w-[120px]" />
         </Field>

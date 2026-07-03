@@ -3,36 +3,52 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { ArrowRight, Check, Loader2 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import { newsletterSchema, type NewsletterInput } from "@/lib/validations";
 
-const schema = z.object({
-  email: z.string().email("Introduce un email válido"),
-});
-type FormData = z.infer<typeof schema>;
+type FormData = NewsletterInput;
 
 export function NewsletterForm() {
-  const [status, setStatus] = useState<"idle" | "loading" | "done">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">(
+    "idle",
+  );
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  } = useForm<FormData>({ resolver: zodResolver(newsletterSchema) });
 
   const onSubmit = async (data: FormData) => {
     setStatus("loading");
-    // Placeholder for Resend integration (wired in a later phase).
-    void data;
-    await new Promise((r) => setTimeout(r, 900));
-    setStatus("done");
-    reset();
-    setTimeout(() => setStatus("idle"), 3500);
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) {
+        setStatus("error");
+        setTimeout(() => setStatus("idle"), 3500);
+        return;
+      }
+      setStatus("done");
+      reset();
+      setTimeout(() => setStatus("idle"), 3500);
+    } catch {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 3500);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      {/* Honeypot — hidden from humans, catches bots. */}
+      <div aria-hidden="true" className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden">
+        <label htmlFor="nl-company">No rellenar</label>
+        <input id="nl-company" type="text" tabIndex={-1} autoComplete="off" {...register("company")} />
+      </div>
       <div className="flex items-center gap-2 rounded-full border border-white/20 bg-white/5 p-1.5 pl-5 backdrop-blur-sm focus-within:border-accent-400/60">
         <input
           type="email"
@@ -69,6 +85,9 @@ export function NewsletterForm() {
         {errors.email && <span className="text-harvest-400">{errors.email.message}</span>}
         {status === "done" && (
           <span className="text-accent-400">¡Gracias! Te has suscrito correctamente.</span>
+        )}
+        {status === "error" && (
+          <span className="text-harvest-400">No se pudo completar. Inténtalo de nuevo.</span>
         )}
       </div>
     </form>

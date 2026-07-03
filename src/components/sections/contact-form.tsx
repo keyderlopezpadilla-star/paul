@@ -3,46 +3,62 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Loader2, Send, CheckCircle2 } from "lucide-react";
+import { Loader2, Send, CheckCircle2, AlertTriangle } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import {
+  contactSchema,
+  interestValues,
+  interestLabels,
+  type ContactInput,
+} from "@/lib/validations";
 
-const schema = z.object({
-  name: z.string().min(2, "Introduce tu nombre"),
-  email: z.string().email("Email no válido"),
-  phone: z.string().optional(),
-  interest: z.enum(["poda", "gestion", "cursos", "otro"]),
-  message: z.string().min(10, "Cuéntanos un poco más (mín. 10 caracteres)"),
-});
-type FormData = z.infer<typeof schema>;
+type FormData = ContactInput;
 
-const interests = [
-  { value: "poda", label: "Poda y aclareo" },
-  { value: "gestion", label: "Gestión de fincas" },
-  { value: "cursos", label: "Cursos de formación" },
-  { value: "otro", label: "Otro" },
-] as const;
+const interests = interestValues.map((value) => ({
+  value,
+  label: interestLabels[value],
+}));
 
 const fieldClass =
   "h-12 w-full rounded-xl border border-forest-900/15 bg-white px-4 text-forest-900 placeholder:text-slate/70 transition-colors focus:border-accent-500 focus:outline-none focus:ring-2 focus:ring-accent-500/20";
 
 export function ContactForm() {
   const [sent, setSent] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(contactSchema),
     defaultValues: { interest: "poda" },
   });
 
   const onSubmit = async (data: FormData) => {
-    // Placeholder — a Resend-powered API route is planned for a later phase.
-    void data;
-    await new Promise((r) => setTimeout(r, 1000));
-    setSent(true);
+    setServerError(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) {
+        const payload = (await res.json().catch(() => null)) as {
+          error?: string;
+        } | null;
+        setServerError(
+          payload?.error ??
+            "No se pudo enviar el mensaje. Inténtalo de nuevo más tarde.",
+        );
+        return;
+      }
+      setSent(true);
+    } catch {
+      setServerError(
+        "Error de conexión. Comprueba tu red e inténtalo de nuevo.",
+      );
+    }
   };
 
   if (sent) {
@@ -118,6 +134,22 @@ export function ContactForm() {
         />
         {errors.message && <p className="mt-1.5 text-sm text-harvest-600">{errors.message.message}</p>}
       </div>
+
+      {/* Honeypot — hidden from humans, catches bots. */}
+      <div aria-hidden="true" className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden">
+        <label htmlFor="company">No rellenar</label>
+        <input id="company" type="text" tabIndex={-1} autoComplete="off" {...register("company")} />
+      </div>
+
+      {serverError && (
+        <div
+          role="alert"
+          className="mt-5 flex items-start gap-2 rounded-xl border border-harvest-600/30 bg-harvest-600/5 px-4 py-3 text-sm text-harvest-600"
+        >
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+          <span>{serverError}</span>
+        </div>
+      )}
 
       <button
         type="submit"
