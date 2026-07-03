@@ -9,7 +9,10 @@ export const siteConfig = {
   tagline: "Innovación y pasión por la tierra",
   description:
     "Agropaul es una empresa agrícola profesional especializada en poda técnica de cítricos, caqui y frutales de hueso, aclareo, recolección y gestión integral de fincas. Formación certificada y soluciones sostenibles.",
-  url: "https://agropaul.es",
+  // Canonical site URL — override with NEXT_PUBLIC_SITE_URL (set on Vercel).
+  // Falls back to the production domain once it's connected.
+  url:
+    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://agropaul.es",
   locale: "es_ES",
   lang: "es",
   keywords: [
