@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Scissors, Sun, Sprout, Radar, ArrowUpRight } from "lucide-react";
-import { services, type Service } from "@/config/content";
+import { type Service } from "@/config/content";
 import { Reveal, TextReveal } from "@/components/motion/reveal";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { cn } from "@/lib/utils";
@@ -22,8 +22,8 @@ const accentClasses: Record<Service["accent"], { chip: string; glow: string; tex
 };
 
 function ServiceCard({ service, className }: { service: Service; className?: string }) {
-  const Icon = icons[service.id as keyof typeof icons];
-  const a = accentClasses[service.accent];
+  const Icon = icons[service.id as keyof typeof icons] ?? Sprout;
+  const a = accentClasses[service.accent] ?? accentClasses.forest;
   return (
     <motion.article
       data-cursor="hover"
@@ -72,7 +72,14 @@ function ServiceCard({ service, className }: { service: Service; className?: str
   );
 }
 
-export function Services() {
+const BENTO_SPANS = [
+  "lg:col-span-4",
+  "lg:col-span-2",
+  "lg:col-span-2",
+  "lg:col-span-4",
+];
+
+export function Services({ services }: { services: Service[] }) {
   return (
     <section id="servicios" className="relative bg-mist py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
@@ -91,11 +98,14 @@ export function Services() {
           </Reveal>
         </div>
 
-        <div className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-6 lg:grid-rows-2">
-          <ServiceCard service={services[0]} className="lg:col-span-4 lg:row-span-1" />
-          <ServiceCard service={services[1]} className="lg:col-span-2 lg:row-span-1" />
-          <ServiceCard service={services[2]} className="lg:col-span-2 lg:row-span-1" />
-          <ServiceCard service={services[3]} className="lg:col-span-4 lg:row-span-1" />
+        <div className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-6">
+          {services.map((service, i) => (
+            <ServiceCard
+              key={service.id}
+              service={service}
+              className={BENTO_SPANS[i % BENTO_SPANS.length]}
+            />
+          ))}
         </div>
       </div>
     </section>

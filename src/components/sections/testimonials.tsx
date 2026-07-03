@@ -3,11 +3,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Quote, BadgeCheck, ArrowLeft, ArrowRight } from "lucide-react";
-import { testimonials } from "@/config/content";
+import { type Testimonial } from "@/config/content";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { useReducedMotion } from "@/hooks/use-media-query";
 
-export function Testimonials() {
+export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
   const [index, setIndex] = useState(0);
   const [dir, setDir] = useState(1);
   const reduced = useReducedMotion();
@@ -17,7 +17,7 @@ export function Testimonials() {
       setDir(next > index || (index === testimonials.length - 1 && next === 0) ? 1 : -1);
       setIndex((next + testimonials.length) % testimonials.length);
     },
-    [index],
+    [index, testimonials.length],
   );
 
   useEffect(() => {
@@ -27,9 +27,10 @@ export function Testimonials() {
       setIndex((i) => (i + 1) % testimonials.length);
     }, 6000);
     return () => clearInterval(id);
-  }, [reduced]);
+  }, [reduced, testimonials.length]);
 
-  const t = testimonials[index];
+  if (testimonials.length === 0) return null;
+  const t = testimonials[index] ?? testimonials[0];
 
   return (
     <section id="testimonios" className="bg-paper py-24 sm:py-32">

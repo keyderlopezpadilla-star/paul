@@ -2,12 +2,12 @@
 
 import { motion } from "framer-motion";
 import { Check, Clock, GraduationCap, ArrowRight } from "lucide-react";
-import { courses } from "@/config/content";
+import { type Course } from "@/config/content";
 import { Reveal, TextReveal } from "@/components/motion/reveal";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Button } from "@/components/ui/button";
 
-export function Courses() {
+export function Courses({ courses }: { courses: Course[] }) {
   return (
     <section id="cursos" className="relative overflow-hidden bg-paper py-24 sm:py-32">
       {/* decorative gradient */}

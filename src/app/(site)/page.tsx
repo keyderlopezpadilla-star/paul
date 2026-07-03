@@ -9,20 +9,33 @@ import { Benefits } from "@/components/sections/benefits";
 import { Stats } from "@/components/sections/stats";
 import { Testimonials } from "@/components/sections/testimonials";
 import { CTA } from "@/components/sections/cta";
+import {
+  getServices,
+  getCourses,
+  getTestimonials,
+  getPartners,
+} from "@/lib/data";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [services, courses, testimonials, partners] = await Promise.all([
+    getServices(),
+    getCourses(),
+    getTestimonials(),
+    getPartners(),
+  ]);
+
   return (
     <>
       <Hero />
-      <Marquee />
+      <Marquee partners={partners} />
       <About />
-      <Services />
+      <Services services={services} />
       <Experience />
-      <Courses />
+      <Courses courses={courses} />
       <Process />
       <Stats />
       <Benefits />
-      <Testimonials />
+      <Testimonials testimonials={testimonials} />
       <CTA />
     </>
   );

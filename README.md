@@ -66,12 +66,19 @@ and all editorial copy in `src/config/content.ts`.
 ## ✦ Getting started
 
 ```bash
-npm install
-npm run dev      # http://localhost:3000
-npm run build    # production build
-npm run start    # serve the build
-npm run lint
+npm install                 # also runs `prisma generate` (postinstall)
+cp .env.example .env        # SQLite defaults work out of the box
+npm run db:migrate          # create the SQLite schema (prisma/dev.db)
+npm run db:seed             # seed content + admin user
+npm run dev                 # http://localhost:3000
 ```
+
+Other scripts: `npm run build` · `npm run start` · `npm run lint` ·
+`npm run db:studio` (Prisma Studio) · `npm run db:setup` (deploy + seed).
+
+**Admin panel:** visit [`/admin`](http://localhost:3000/admin) and sign in with
+the seeded credentials — `admin@agropaul.es` / `agropaul2026`
+(configurable via `.env`; change them for production).
 
 ## ✦ Phase 2 — Immersive 3D (done ✅)
 
@@ -89,12 +96,34 @@ section (`src/components/three/`):
   `prefers-reduced-motion`, with a static gradient fallback and a loading
   sequence — so it never hurts SSR, mobile or accessibility.
 
+## ✦ Phase 3 — CMS + Admin (done ✅)
+
+A fully functional headless CMS backs the public site:
+
+- **Prisma + SQLite** (zero-config locally; swap the datasource to PostgreSQL
+  for production). Schema: `User`, `Service`, `Course`, `Testimonial`,
+  `Partner`, `Post`. Seeded from `src/config/content.ts`.
+- **NextAuth v5 (Auth.js)** credentials auth with bcrypt-hashed passwords, JWT
+  sessions, and an **edge-safe config split** (`auth.config.ts` for middleware,
+  `auth.ts` for the Node provider). `middleware.ts` protects every `/admin`
+  route.
+- **Admin dashboard** at `/admin` — sidebar, stats overview, and full
+  create/edit/delete (via **server actions**) for services, courses,
+  testimonials, news posts and partners.
+- **Public site wired to the DB** — the homepage (services, courses,
+  testimonials, partner marquee) and a new **`/noticias` blog** (list + article
+  pages with `generateStaticParams`, dynamic metadata and `Article` JSON-LD)
+  all read from Prisma. CMS writes call `revalidatePath()` so changes appear
+  immediately.
+
+> The public site sits under a `(site)` route group with its own layout
+> (smooth scroll, cursor, navbar, footer); `/admin` has a separate shell.
+
 ## ✦ Roadmap (next phases)
 
-3. **CMS + Admin** — Prisma + PostgreSQL, NextAuth, media library (Cloudinary),
-   manage products/courses/news/testimonials.
 4. **Live forms** — Resend-powered contact & newsletter API routes
    (currently validated client-side with simulated submission).
 5. **PWA / offline** + Stripe-ready checkout for courses.
+6. **Media library** — Cloudinary uploads wired into the CMS forms.
 
 See `.env.example` for the variables these phases will use.

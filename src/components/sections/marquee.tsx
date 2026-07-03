@@ -1,10 +1,8 @@
-import { partners } from "@/config/content";
-
 /**
  * Infinite, CSS-driven marquee of partner names. Duplicated track for a
  * seamless loop; pauses on hover.
  */
-export function Marquee() {
+export function Marquee({ partners }: { partners: string[] }) {
   const items = [...partners, ...partners];
   return (
     <section className="border-y border-forest-900/10 bg-paper py-8" aria-label="Colaboradores">

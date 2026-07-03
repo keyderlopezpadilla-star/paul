@@ -4,11 +4,12 @@
  */
 
 export const nav = [
-  { label: "Servicios", href: "#servicios" },
-  { label: "Cursos", href: "#cursos" },
-  { label: "Proceso", href: "#proceso" },
-  { label: "Nosotros", href: "#nosotros" },
-  { label: "Contacto", href: "#contacto" },
+  { label: "Servicios", href: "/#servicios" },
+  { label: "Cursos", href: "/#cursos" },
+  { label: "Proceso", href: "/#proceso" },
+  { label: "Nosotros", href: "/#nosotros" },
+  { label: "Noticias", href: "/noticias" },
+  { label: "Contacto", href: "/#contacto" },
 ] as const;
 
 export const heroStats = [

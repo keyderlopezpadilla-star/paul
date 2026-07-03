@@ -2,11 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
-import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider";
-import { CustomCursor } from "@/components/interaction/custom-cursor";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { JsonLd } from "@/components/seo/json-ld";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -77,7 +72,6 @@ export default function RootLayout({
   return (
     <html lang={siteConfig.lang} className={inter.variable}>
       <head>
-        {/* General Sans + Satoshi via Fontshare */}
         <link
           rel="preconnect"
           href="https://api.fontshare.com"
@@ -88,15 +82,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>
-        <JsonLd />
-        <SmoothScrollProvider>
-          <CustomCursor />
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-        </SmoothScrollProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
