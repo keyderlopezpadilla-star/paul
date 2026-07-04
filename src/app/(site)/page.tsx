@@ -3,6 +3,7 @@ import { Marquee } from "@/components/sections/marquee";
 import { About } from "@/components/sections/about";
 import { Services } from "@/components/sections/services";
 import { Experience } from "@/components/sections/experience";
+import { Gallery } from "@/components/sections/gallery";
 import { Courses } from "@/components/sections/courses";
 import { Process } from "@/components/sections/process";
 import { Benefits } from "@/components/sections/benefits";
@@ -31,6 +32,7 @@ export default async function HomePage() {
       <About />
       <Services services={services} />
       <Experience />
+      <Gallery />
       <Courses courses={courses} />
       <Process />
       <Stats />
