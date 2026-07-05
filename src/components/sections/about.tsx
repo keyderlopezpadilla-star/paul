@@ -99,7 +99,7 @@ function PaulCard() {
       {/* Image */}
       <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-auto sm:w-44 sm:shrink-0">
         <Image
-          src="/team/paul-gerente-campo.jpeg"
+          src="/team/paul-gerente.jpeg"
           alt="Paul — Gerente de Agropaul"
           fill
           sizes="(max-width: 640px) 100vw, 176px"

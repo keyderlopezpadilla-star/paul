@@ -107,7 +107,7 @@ export function Hero() {
         >
           <div className="relative h-10 w-10 overflow-hidden rounded-full ring-2 ring-white/20">
             <Image
-              src="/team/paul-gerente-campo.jpeg"
+              src="/team/paul-gerente.jpeg"
               alt="Paul"
               fill
               sizes="40px"
