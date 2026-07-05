@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, ArrowDown } from "lucide-react";
 import { ParticleField } from "@/components/hero/particle-field";
@@ -95,6 +96,30 @@ export function Hero() {
           <Button href="#cursos" variant="light" size="lg">
             Ver cursos de formación
           </Button>
+        </motion.div>
+
+        {/* Paul founder badge */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.85, ease: EASE }}
+          className="mt-8 flex items-center gap-3"
+        >
+          <div className="relative h-10 w-10 overflow-hidden rounded-full ring-2 ring-white/20">
+            <Image
+              src="/team/paul-gerente-campo.jpeg"
+              alt="Paul"
+              fill
+              sizes="40px"
+              className="object-cover"
+            />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-sm font-medium text-white/90">Paul</span>
+            <span className="text-xs text-white/50">Gerente &amp; Fundador · Desde 2012</span>
+          </div>
+          <div className="ml-2 h-5 w-px bg-white/15" />
+          <span className="text-xs italic text-white/40">&ldquo;Calidad que da fruto&rdquo;</span>
         </motion.div>
 
         {/* Stats */}

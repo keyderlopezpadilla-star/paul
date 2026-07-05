@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Sprout, Users, Award, Cpu } from "lucide-react";
 import { Reveal, TextReveal } from "@/components/motion/reveal";
@@ -17,7 +18,7 @@ export function About() {
     <section id="nosotros" className="relative bg-paper py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
-          {/* Left — narrative */}
+          {/* Left — narrative + Paul card */}
           <div>
             <Eyebrow>Quiénes somos</Eyebrow>
             <h2 className="mt-6 font-display text-[clamp(2rem,4.5vw,3.75rem)] font-semibold leading-[1.02] tracking-tight text-forest-900">
@@ -32,7 +33,13 @@ export function About() {
                 próximas generaciones.
               </p>
             </Reveal>
+
+            {/* Paul — Gerente card */}
             <Reveal delay={0.2}>
+              <PaulCard />
+            </Reveal>
+
+            <Reveal delay={0.3}>
               <div className="mt-10 grid grid-cols-2 gap-6">
                 <div className="rounded-2xl border border-forest-900/10 bg-white p-6">
                   <p className="font-display text-4xl font-semibold text-forest-700">Sostenible</p>
@@ -77,5 +84,59 @@ export function About() {
         </div>
       </div>
     </section>
+  );
+}
+
+/* ─────────────── Paul Gerente Card ─────────────── */
+
+function PaulCard() {
+  return (
+    <motion.div
+      whileHover={{ y: -4, scale: 1.01 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      className="group relative mt-10 flex flex-col overflow-hidden rounded-[2rem] border border-forest-900/10 bg-white shadow-[0_20px_60px_-30px_rgba(7,30,18,0.18)] sm:flex-row"
+    >
+      {/* Image */}
+      <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-auto sm:w-44 sm:shrink-0">
+        <Image
+          src="/team/paul-gerente-campo.jpeg"
+          alt="Paul — Gerente de Agropaul"
+          fill
+          sizes="(max-width: 640px) 100vw, 176px"
+          className="object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-forest-900/50 via-transparent to-transparent sm:bg-gradient-to-r sm:from-transparent sm:via-transparent sm:to-white/20" />
+      </div>
+
+      {/* Info */}
+      <div className="relative flex flex-1 flex-col justify-center p-6 sm:p-8">
+        {/* Decorative accent */}
+        <div className="absolute right-6 top-6 h-10 w-10 rounded-full bg-accent-500/10 blur-xl" />
+
+        <span className="mb-2 inline-flex w-fit items-center gap-1.5 rounded-full bg-accent-500/10 px-3 py-1 text-xs font-semibold text-accent-700">
+          <span className="h-1.5 w-1.5 rounded-full bg-accent-500" />
+          Fundador
+        </span>
+        <h3 className="font-display text-2xl font-semibold tracking-tight text-forest-900">
+          Paul
+        </h3>
+        <p className="mt-1 text-base font-medium text-forest-700">
+          Gerente y Jefe de Agropaul
+        </p>
+        <p className="mt-3 text-sm leading-relaxed text-graphite">
+          Con más de una década de experiencia en el campo valenciano, Paul
+          lidera cada proyecto con pasión, cercanía y la convicción de que la
+          agricultura puede ser innovadora sin perder su esencia.
+        </p>
+
+        {/* Signature-like flourish */}
+        <div className="mt-5 flex items-center gap-3">
+          <div className="h-px flex-1 bg-gradient-to-r from-forest-900/15 to-transparent" />
+          <span className="font-display text-sm italic text-forest-700/60">
+            &ldquo;Calidad que da fruto&rdquo;
+          </span>
+        </div>
+      </div>
+    </motion.div>
   );
 }
