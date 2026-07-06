@@ -5,11 +5,13 @@ import { Leaf, ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { nav } from "@/config/content";
 import { NewsletterForm } from "@/components/sections/newsletter-form";
+import { whatsappUrl, mailtoUrl } from "@/lib/contact";
 import {
   InstagramIcon,
   LinkedinIcon,
   YoutubeIcon,
   FacebookIcon,
+  WhatsappIcon,
 } from "@/components/ui/social-icons";
 
 const socials = [
@@ -64,13 +66,25 @@ export function Footer() {
               </h3>
               <ul className="mt-5 space-y-3 text-white/75">
                 <li>
-                  <a href={`mailto:${siteConfig.contact.email}`} data-cursor="hover" className="hover:text-white">
-                    {siteConfig.contact.email}
+                  <a href={mailtoUrl({ subject: "Consulta desde la web de Agropaul" })} data-cursor="hover" className="hover:text-white">
+                    {siteConfig.contact.gmail}
                   </a>
                 </li>
                 <li>
                   <a href={siteConfig.contact.phoneHref} data-cursor="hover" className="hover:text-white">
                     {siteConfig.contact.phone}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={whatsappUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-cursor="hover"
+                    className="inline-flex items-center gap-1.5 text-accent-400 hover:text-accent-300"
+                  >
+                    <WhatsappIcon className="h-3.5 w-3.5" />
+                    WhatsApp directo
                   </a>
                 </li>
                 <li className="text-white/60">

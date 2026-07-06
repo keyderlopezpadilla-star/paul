@@ -71,7 +71,10 @@ export async function POST(req: Request) {
 
   await Promise.allSettled([
     sendEmail({
-      to: process.env.CONTACT_TO_EMAIL || siteConfig.contact.email,
+      to:
+        process.env.CONTACT_TO_EMAIL ||
+        siteConfig.contact.gmail ||
+        siteConfig.contact.email,
       subject: notify.subject,
       html: notify.html,
       text: notify.text,

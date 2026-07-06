@@ -5,7 +5,13 @@ import { Mail, Phone, MapPin } from "lucide-react";
 import { ContactForm } from "@/components/sections/contact-form";
 import { TextReveal } from "@/components/motion/reveal";
 import { Eyebrow } from "@/components/ui/eyebrow";
+import { WhatsappIcon } from "@/components/ui/social-icons";
 import { siteConfig } from "@/config/site";
+import { whatsappUrl, mailtoUrl } from "@/lib/contact";
+
+const emailSubject = "Consulta desde la web de Agropaul";
+const emailBody =
+  "Hola Agropaul,\n\nMe gustaría recibir más información sobre:\n\n(Cuéntanos sobre tu finca o tu proyecto)\n\nGracias.";
 
 export function CTA() {
   return (
@@ -39,11 +45,15 @@ export function CTA() {
 
             <ul className="mt-10 space-y-4">
               <li>
-                <a href={`mailto:${siteConfig.contact.email}`} data-cursor="hover" className="group flex items-center gap-4 text-forest-900">
+                <a
+                  href={mailtoUrl({ subject: emailSubject, body: emailBody })}
+                  data-cursor="hover"
+                  className="group flex items-center gap-4 text-forest-900"
+                >
                   <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-forest-700 text-white">
                     <Mail className="h-5 w-5" />
                   </span>
-                  <span className="text-lg group-hover:text-accent-600">{siteConfig.contact.email}</span>
+                  <span className="text-lg group-hover:text-accent-600">{siteConfig.contact.gmail}</span>
                 </a>
               </li>
               <li>
@@ -52,6 +62,22 @@ export function CTA() {
                     <Phone className="h-5 w-5" />
                   </span>
                   <span className="text-lg group-hover:text-accent-600">{siteConfig.contact.phone}</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={whatsappUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-cursor="hover"
+                  className="group flex items-center gap-4 text-forest-900"
+                >
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#25D366] text-white">
+                    <WhatsappIcon className="h-5 w-5" />
+                  </span>
+                  <span className="text-lg group-hover:text-accent-600">
+                    WhatsApp · {siteConfig.contact.phone}
+                  </span>
                 </a>
               </li>
               <li className="flex items-center gap-4 text-forest-900">
@@ -63,6 +89,18 @@ export function CTA() {
                 </span>
               </li>
             </ul>
+
+            {/* Prominent WhatsApp CTA */}
+            <a
+              href={whatsappUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="hover"
+              className="mt-8 inline-flex items-center justify-center gap-2.5 rounded-full bg-[#25D366] px-7 py-3.5 font-medium text-white shadow-[0_12px_32px_-10px_rgba(37,211,102,0.7)] transition-transform hover:scale-[1.02] active:scale-95"
+            >
+              <WhatsappIcon className="h-5 w-5" />
+              Escríbenos por WhatsApp
+            </a>
           </div>
 
           {/* Right — form */}

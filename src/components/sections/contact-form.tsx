@@ -12,6 +12,8 @@ import {
   interestLabels,
   type ContactInput,
 } from "@/lib/validations";
+import { WhatsappIcon } from "@/components/ui/social-icons";
+import { whatsappUrl, buildLeadWhatsappMessage } from "@/lib/contact";
 
 type FormData = ContactInput;
 
@@ -29,11 +31,24 @@ export function ContactForm() {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: zodResolver(contactSchema),
     defaultValues: { interest: "poda" },
   });
+
+  const sendViaWhatsapp = () => {
+    const v = getValues();
+    const message = buildLeadWhatsappMessage({
+      name: v.name || "",
+      email: v.email || "",
+      phone: v.phone,
+      interestLabel: interestLabels[v.interest] ?? "Consulta general",
+      message: v.message || "",
+    });
+    window.open(whatsappUrl(message), "_blank", "noopener,noreferrer");
+  };
 
   const onSubmit = async (data: FormData) => {
     setServerError(null);
@@ -76,6 +91,16 @@ export function ContactForm() {
           Gracias por contactar con Agropaul. Nuestro equipo te responderá en
           menos de 24 horas laborables.
         </p>
+        <a
+          href={whatsappUrl()}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-cursor="hover"
+          className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-3 font-medium text-white transition-transform hover:scale-[1.02] active:scale-95"
+        >
+          <WhatsappIcon className="h-5 w-5" />
+          ¿Prefieres respuesta inmediata? WhatsApp
+        </a>
       </motion.div>
     );
   }
@@ -151,23 +176,37 @@ export function ContactForm() {
         </div>
       )}
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        data-cursor="hover"
-        className="group mt-6 flex h-13 w-full items-center justify-center gap-2 rounded-full bg-forest-700 px-8 py-4 font-medium text-white transition-colors hover:bg-forest-800 disabled:opacity-70"
-      >
-        {isSubmitting ? (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" /> Enviando...
-          </>
-        ) : (
-          <>
-            Enviar mensaje
-            <Send className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </>
-        )}
-      </button>
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          data-cursor="hover"
+          className="group flex h-13 flex-1 items-center justify-center gap-2 rounded-full bg-forest-700 px-8 py-4 font-medium text-white transition-colors hover:bg-forest-800 disabled:opacity-70"
+        >
+          {isSubmitting ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" /> Enviando...
+            </>
+          ) : (
+            <>
+              Enviar mensaje
+              <Send className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </>
+          )}
+        </button>
+        <button
+          type="button"
+          onClick={sendViaWhatsapp}
+          data-cursor="hover"
+          className="flex h-13 items-center justify-center gap-2 rounded-full border border-[#25D366] bg-[#25D366]/10 px-6 py-4 font-medium text-[#128C4A] transition-colors hover:bg-[#25D366]/20"
+        >
+          <WhatsappIcon className="h-5 w-5" />
+          WhatsApp
+        </button>
+      </div>
+      <p className="mt-3 text-center text-xs text-slate">
+        Respuesta más rápida por WhatsApp · Lun–Sáb
+      </p>
     </form>
   );
 }

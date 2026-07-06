@@ -1,5 +1,6 @@
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider";
 import { CustomCursor } from "@/components/interaction/custom-cursor";
+import { WhatsAppButton } from "@/components/interaction/whatsapp-button";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -21,6 +22,7 @@ export default function SiteLayout({
         <Navbar />
         <main>{children}</main>
         <Footer />
+        <WhatsAppButton />
       </SmoothScrollProvider>
     </>
   );

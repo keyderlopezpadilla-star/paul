@@ -28,10 +28,16 @@ export const siteConfig = {
     "Agropaul",
   ],
   contact: {
+    // Primary email (domain). Also add a Gmail below for direct contact.
     email: "info@agropaul.es",
-    phone: "+34 600 000 000",
-    phoneHref: "tel:+34600000000",
-    whatsapp: "https://wa.me/34600000000",
+    gmail: "agropaul.gestion@gmail.com",
+    phone: "+34 642 873 776",
+    phoneHref: "tel:+34642873776",
+    // E.164 without "+" — used to build wa.me links.
+    whatsappNumber: "34642873776",
+    whatsapp: "https://wa.me/34642873776",
+    whatsappMessage:
+      "Hola Agropaul 👋, me gustaría recibir más información sobre vuestros servicios agrícolas.",
     address: {
       region: "Comunidad Valenciana",
       country: "España",

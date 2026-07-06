@@ -16,8 +16,15 @@ export function JsonLd() {
         legalName: siteConfig.legalName,
         url: siteConfig.url,
         description: siteConfig.description,
-        email: siteConfig.contact.email,
+        email: [siteConfig.contact.gmail, siteConfig.contact.email],
         telephone: siteConfig.contact.phone,
+        contactPoint: {
+          "@type": "ContactPoint",
+          telephone: siteConfig.contact.phone,
+          email: siteConfig.contact.gmail,
+          contactType: "customer service",
+          availableLanguage: ["es"],
+        },
         foundingDate: siteConfig.founded,
         areaServed: {
           "@type": "AdministrativeArea",
