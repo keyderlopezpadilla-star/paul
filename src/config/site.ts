@@ -30,7 +30,7 @@ export const siteConfig = {
   contact: {
     // Primary email (domain). Also add a Gmail below for direct contact.
     email: "info@agropaul.es",
-    gmail: "agropaul.gestion@gmail.com",
+    gmail: "agropaul29@gmail.com",
     phone: "+34 642 873 776",
     phoneHref: "tel:+34642873776",
     // E.164 without "+" — used to build wa.me links.
